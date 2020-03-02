@@ -112,28 +112,28 @@ describe("Reset on options change", () => {
     expect(Select.vm.selectedValue).toEqual([{ label: "oneLabel", value: "one" }]);
   });
 
-  it('default behavior when blur search field is to clean it.', () => {
+  it('clearSearchOnBlur returns false when multiple is true', () => {
     const Select = mountDefault({});
     let clearSearchOnBlur = jest.spyOn(Select.vm, 'clearSearchOnBlur');
-    Select.find({ ref: "search" }).trigger("click");
-    Select.setData({ search: "one" });
-    Select.find({ ref: "search" }).trigger("blur");
+    Select.find({ref: 'search'}).trigger('click');
+    Select.setData({search: 'one'});
+    Select.find({ref: 'search'}).trigger('blur');
 
     expect(clearSearchOnBlur).toHaveBeenCalledTimes(1);
     expect(clearSearchOnBlur).toHaveBeenCalledWith({
       clearSearchOnSelect: true,
-      multiple: false
+      multiple: false,
     });
     expect(Select.vm.search).toBe('');
   });
 
-  it('control behavior when blur search field.', () => {
+  it('clearSearchOnBlur accepts a function', () => {
     let clearSearchOnBlur = jest.fn(() => false);
     const Select = mountDefault({clearSearchOnBlur});
 
-    Select.find({ ref: "search" }).trigger("click");
-    Select.setData({ search: "one" });
-    Select.find({ ref: "search" }).trigger("blur");
+    Select.find({ref: 'search'}).trigger('click');
+    Select.setData({search: 'one'});
+    Select.find({ref: 'search'}).trigger('blur');
 
     expect(clearSearchOnBlur).toHaveBeenCalledTimes(1);
     expect(Select.vm.search).toBe('one');
