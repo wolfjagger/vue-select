@@ -5,5 +5,9 @@
   "scripts": {
     "serve": "npx vitepress",
     "build": "npx vitepress build"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.1.2",
+    "tailwindcss": "^1.4.6"
   }
 }

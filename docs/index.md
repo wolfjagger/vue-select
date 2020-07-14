@@ -11,6 +11,8 @@ has evolved substantially since then, and the foundational principles of what
 the library should be have shifted over time. So I'm starting fresh from the
 ground up with 4.0.
 
+> This article is a **Work In Progress**.
+
 ## 🔬 Guiding Principles
 
 ### 1. Accessibility
@@ -31,8 +33,10 @@ number of problems:
   implement these keybindings and keep keyboard functionality as close to the
   native select as possible.
 
-- **Mobile**. Vue Select is not very friendly on mobile, and the native select
-  does a better job of _almost_ everything – it's just missing filtering.
+- **Mobile**. Vue Select 3.x is not very friendly on mobile, where the native
+  select does a better job of _almost_ everything – it's just missing filtering.
+  If you've got suggestions about how to improve this experience, I'd love to
+  hear them.
 
 Rewriting the component from the ground up with accessibility as the first
 guiding principle will ensure the component is friendly to all users.
@@ -46,7 +50,7 @@ use in your projects, and they'll be used to compose the default dropdown.
 
 ## 🎯 Not Just a Dropdown
 
-Vue Select 4.0 aims to be the base components used to create accessible controls
-for selecting any type of data. The library will provide the primitive
+Vue Select 4.0 aims to provide the base components used to create accessible
+controls for selecting any type of data. The library will provide the primitive
 components to build accessible radio buttons, checkboxes, dropdowns, and any
 other selecting UIs that you can dream up.
