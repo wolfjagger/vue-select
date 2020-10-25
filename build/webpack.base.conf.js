@@ -28,7 +28,7 @@ module.exports = {
       'assets': path.resolve(__dirname, '../docs/assets'),
       'mixins': path.resolve(__dirname, '../src/mixins'),
       'components': path.resolve(__dirname, '../src/components'),
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.esm-bundler.js'
     },
   },
   module: {
@@ -57,6 +57,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': env,
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
     }),
     new MiniCssExtractPlugin({
       filename: 'vue-select.css',
