@@ -633,8 +633,18 @@
         this.setInternalValueFromOptions(this.value)
       }
 
-      this.$on('option:created', this.pushTag)
     },
+
+    emits: [
+      'open', 'close', 'input',
+      'search',
+      'search:compositionstart',
+      'search:compositionend',
+      'search:keydown',
+      'search:blur',
+      'search:focus',
+      'search:input'
+    ],
 
     methods: {
       /**
@@ -659,7 +669,7 @@
       select(option) {
         if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
-            this.$emit('option:created', option);
+            this.pushTag(option)
           }
           if (this.multiple) {
             option = this.selectedValue.concat(option)
