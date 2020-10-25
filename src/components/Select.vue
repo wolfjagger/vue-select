@@ -501,7 +501,7 @@
 
       /**
        * Query Selector used to find the search input
-       * when the 'search' scoped slot is used.
+       * when the 'search' slot is used.
        *
        * Must be a valid CSS selector string.
        *
@@ -847,7 +847,7 @@
 
       /**
        * Ensures that options are always
-       * passed as objects to scoped slots.
+       * passed as objects to slots.
        * @param option
        * @return {*}
        */
@@ -1017,13 +1017,13 @@
        * @returns {HTMLInputElement}
        */
       searchEl () {
-        return !!this.$scopedSlots['search']
+        return !!this.$slots['search']
           ? this.$refs.selectedOptions.querySelector(this.searchInputQuerySelector)
           : this.$refs.search;
       },
 
       /**
-       * The object to be bound to the $slots.search scoped slot.
+       * The object to be bound to the $slots.search slot.
        * @returns {Object}
        */
       scope () {
