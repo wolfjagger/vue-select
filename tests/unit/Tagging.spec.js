@@ -236,7 +236,7 @@ describe("When Tagging Is Enabled", () => {
       multiple: true,
       options: [{ label: "two" }]
     });
-    const spy = jest.spyOn(Select.vm, 'select');
+    const spy = jest.spyOn(Select.vm.$.ctx, 'select');
 
     await selectTag(Select, "one");
     expect(Select.vm.selectedValue).toEqual([{ label: "one" }]);

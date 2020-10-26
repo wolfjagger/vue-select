@@ -18,7 +18,7 @@ describe('Custom Keydown Handlers', () => {
       selectOnKeyCodes: [32],
     });
 
-    const spy = jest.spyOn(Select.vm, 'typeAheadSelect');
+    const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
     Select.find({ ref: 'search' }).trigger('keydown.space');
 
@@ -32,7 +32,7 @@ describe('Custom Keydown Handlers', () => {
       selectOnKeyCodes: [9],
     });
 
-    const spy = jest.spyOn(Select.vm, 'typeAheadSelect');
+    const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
     Select.find({ ref: 'search' }).trigger('keydown.space');
     expect(onKeyDown.mock.calls.length).toBe(1);
@@ -45,7 +45,7 @@ describe('Custom Keydown Handlers', () => {
 
     it('will not select a value with enter if the user is composing', () => {
       const Select = mountDefault();
-      const spy = jest.spyOn(Select.vm, 'typeAheadSelect');
+      const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
       Select.find({ ref: 'search' }).trigger('compositionstart');
       Select.find({ ref: 'search' }).trigger('keydown.enter');
@@ -58,7 +58,7 @@ describe('Custom Keydown Handlers', () => {
 
     it('will not select a value with tab if the user is composing', () => {
       const Select = mountDefault({ selectOnTab: true });
-      const spy = jest.spyOn(Select.vm, 'typeAheadSelect');
+      const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
       Select.find({ ref: 'search' }).trigger('compositionstart');
       Select.find({ ref: 'search' }).trigger('keydown.tab');

@@ -50,7 +50,7 @@ describe("Reset on options change", () => {
       const Select = shallowMount(VueSelect, {
         propsData: {resetOnOptionsChange, options: ['one'], value: 'one'},
       });
-      const spy = jest.spyOn(Select.vm, 'clearSelection');
+      const spy = jest.spyOn(Select.vm.$.ctx, 'clearSelection');
 
       Select.setProps({options: ['one', 'two']});
       await Select.vm.$nextTick();
@@ -63,7 +63,7 @@ describe("Reset on options change", () => {
       const Select = shallowMount(VueSelect, {
         propsData: {resetOnOptionsChange, options: ['one'], value: 'one'},
       });
-      const spy = jest.spyOn(Select.vm, 'clearSelection');
+      const spy = jest.spyOn(Select.vm.$.ctx, 'clearSelection');
 
       Select.setProps({options: ['one', 'two']});
       expect(spy).not.toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe("Reset on options change", () => {
       const Select = shallowMount(VueSelect, {
         propsData: {resetOnOptionsChange, options: ['one'], value: 'one'},
       });
-      const spy = jest.spyOn(Select.vm, 'clearSelection');
+      const spy = jest.spyOn(Select.vm.$.ctx, 'clearSelection');
 
       Select.setProps({options: ['one', 'two']});
       await Select.vm.$nextTick();
@@ -114,7 +114,7 @@ describe("Reset on options change", () => {
 
   it('clearSearchOnBlur returns false when multiple is true', () => {
     const Select = mountDefault({});
-    let clearSearchOnBlur = jest.spyOn(Select.vm, 'clearSearchOnBlur');
+    let clearSearchOnBlur = jest.spyOn(Select.vm.$.props, 'clearSearchOnBlur');
     Select.find({ref: 'search'}).trigger('click');
     Select.setData({search: 'one'});
     Select.find({ref: 'search'}).trigger('blur');

@@ -99,23 +99,23 @@ describe("Toggling Dropdown", () => {
 
   it("will close the dropdown and emit the search:blur event from onSearchBlur", () => {
     const Select = selectWithProps();
-    const spy = jest.spyOn(Select.vm, "$emit");
+    const spy = jest.spyOn(Select.vm.$.ctx, "onSearchBlur");
 
     Select.vm.open = true;
     Select.vm.onSearchBlur();
 
     expect(Select.vm.open).toEqual(false);
-    expect(spy).toHaveBeenCalledWith("search:blur");
+    expect(spy).toHaveBeenCalled();
   });
 
   it("will open the dropdown and emit the search:focus event from onSearchFocus", () => {
     const Select = selectWithProps();
-    const spy = jest.spyOn(Select.vm, "$emit");
+    const spy = jest.spyOn(Select.vm.$.ctx, "onSearchFocus");
 
     Select.vm.onSearchFocus();
 
     expect(Select.vm.open).toEqual(true);
-    expect(spy).toHaveBeenCalledWith("search:focus");
+    expect(spy).toHaveBeenCalled();
   });
 
   it("will close the dropdown on escape, if search is empty", () => {

@@ -57,7 +57,7 @@ describe("VS - Selecting Values", () => {
       }
     });
 
-    const spy = jest.spyOn(Select.vm, "typeAheadSelect");
+    const spy = jest.spyOn(Select.vm.$.ctx, "typeAheadSelect");
 
     Select.find({ ref: "search" }).trigger("keydown.tab");
 
