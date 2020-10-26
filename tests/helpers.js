@@ -36,11 +36,11 @@ export const selectTag = async (Wrapper, searchText) => {
 /**
  * Create a new VueSelect instance with
  * a provided set of props.
- * @param propsData
+ * @param props
  * @returns {Wrapper<Vue>}
  */
-export const selectWithProps = (propsData = {}) => {
-  return shallowMount(VueSelect, { propsData });
+export const selectWithProps = (props = {}) => {
+  return shallowMount(VueSelect, { props });
 };
 
 /**
@@ -51,7 +51,7 @@ export const selectWithProps = (propsData = {}) => {
  */
 export const mountDefault = (props = {}, options = {}) => {
   return shallowMount(VueSelect, {
-    propsData: {
+    props: {
       options: ['one', 'two', 'three'],
       ...props,
     },
@@ -67,12 +67,12 @@ export const mountDefault = (props = {}, options = {}) => {
  * @return {Vue | Element | Vue[] | Element[]}
  */
 export const mountWithoutTestUtils = (props = {}, options = {}) => {
-  return new Vue({
+  return createApp({
     render: createEl => createEl('vue-select', {
       ref: 'select',
       props: {options: ['one', 'two', 'three'], ...props},
       ...options
     }),
     components: {VueSelect},
-  }).$mount().$refs.select;
+  }).mount().$refs.select;
 };
