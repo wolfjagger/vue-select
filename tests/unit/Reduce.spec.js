@@ -4,7 +4,7 @@ import VueSelect from "../../src/components/Select";
 describe("When reduce prop is defined", () => {
   it("can accept an array of objects and pre-selected value (single)", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.value,
         value: "foo",
         options: [{ label: "This is Foo", value: "foo" }]
@@ -15,7 +15,7 @@ describe("When reduce prop is defined", () => {
 
   it("can determine if an object is pre-selected", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.id,
         value: "foo",
         options: [
@@ -37,7 +37,7 @@ describe("When reduce prop is defined", () => {
 
   it('can determine if an object is selected after its been chosen', () => {
       const Select = shallowMount(VueSelect, {
-        propsData: {
+        props: {
           reduce: option => option.id,
           options: [{id: 'foo', label: 'FooBar'}],
         },
@@ -53,7 +53,7 @@ describe("When reduce prop is defined", () => {
 
   it("can accept an array of objects and pre-selected values (multiple)", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         reduce: option => option.value,
         value: ["foo"],
@@ -69,7 +69,7 @@ describe("When reduce prop is defined", () => {
 
   it("can deselect a pre-selected object", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         reduce: option => option.value,
         options: [
@@ -87,7 +87,7 @@ describe("When reduce prop is defined", () => {
 
   it("can deselect an option when multiple is false", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.value,
         options: [
           { label: "This is Foo", value: "foo" },
@@ -150,7 +150,7 @@ describe("When reduce prop is defined", () => {
 
   it("can generate labels using a custom label key", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         reduce: option => option.value,
         value: ["CA"],
@@ -165,7 +165,7 @@ describe("When reduce prop is defined", () => {
   it("can find the original option within this.options", () => {
     const optionToFind = { id: 1, label: "Foo" };
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.id,
         options: [optionToFind, { id: 2, label: "Bar" }]
       }
@@ -180,7 +180,7 @@ describe("When reduce prop is defined", () => {
   it('can work with falsey values', () => {
     const option = {value: 0, label: 'No'};
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.value,
         options: [option, {value: 1, label: 'Yes'}],
         value: 0,
@@ -194,7 +194,7 @@ describe("When reduce prop is defined", () => {
   it('works with null values', () => {
     const option = {value: null, label: 'No'};
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         reduce: option => option.value,
         options: [option, {value: 1, label: 'Yes'}],
         value: null,
@@ -209,7 +209,7 @@ describe("When reduce prop is defined", () => {
     it("can determine if an object is pre-selected", () => {
       const nestedOption = { value: { nested: true }, label: "foo" };
       const Select = shallowMount(VueSelect, {
-        propsData: {
+        props: {
           reduce: option => option.value,
           value: {
             nested: true
@@ -224,7 +224,7 @@ describe("When reduce prop is defined", () => {
     it("can determine if an object is selected after it is chosen", () => {
       const nestedOption = { value: { nested: true }, label: "foo" };
       const Select = shallowMount(VueSelect, {
-        propsData: {
+        props: {
           reduce: option => option.value,
           options: [nestedOption]
         }
@@ -239,7 +239,7 @@ describe("When reduce prop is defined", () => {
   it("reacts correctly when value property changes", async () => {
     const optionToChangeTo = { id: 1, label: "Foo" };
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         value: 2,
         reduce: option => option.id,
         options: [optionToChangeTo, { id: 2, label: "Bar" }]

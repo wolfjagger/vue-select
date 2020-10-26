@@ -7,7 +7,7 @@ import Vue from "vue";
 describe("Moving the Typeahead Pointer", () => {
   it("should set the pointer to zero when the filteredOptions watcher is called", async () => {
     const Select = shallowMount(VueSelect, {
-      propsData: { options: ["one", "two", "three"] },
+      props: { options: ["one", "two", "three"] },
       sync: false
     });
 

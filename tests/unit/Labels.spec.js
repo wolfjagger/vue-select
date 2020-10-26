@@ -29,7 +29,7 @@ describe("Labels", () => {
 
   it("should display a placeholder if the value is empty", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         options: ["one"]
       },
       attrs: {
@@ -62,7 +62,7 @@ describe("Labels", () => {
     xit('will not call getOptionLabel if both scoped option slots are used and a filter is provided', () => {
       const spy = spyOn(VueSelect.props.getOptionLabel, 'default');
       const Select = shallowMount(VueSelect, {
-        propsData: {
+        props: {
           options: [{name: 'one'}],
           filter: () => {},
         },

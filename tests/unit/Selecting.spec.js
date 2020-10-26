@@ -14,14 +14,14 @@ describe("VS - Selecting Values", () => {
 
   it("can accept an array with pre-selected values", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: defaultProps
+      props: defaultProps
     });
     expect(Select.selectedValue).toEqual(Select.value);
   });
 
   it("can accept an array of objects and pre-selected value (single)", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         value: { label: "This is Foo", value: "foo" },
         options: [
           { label: "This is Foo", value: "foo" },
@@ -34,7 +34,7 @@ describe("VS - Selecting Values", () => {
 
   it("can accept an array of objects and pre-selected values (multiple)", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         value: [
           { label: "This is Foo", value: "foo" },
           { label: "This is Bar", value: "bar" }
@@ -52,7 +52,7 @@ describe("VS - Selecting Values", () => {
 
   it("can select an option on tab", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         selectOnTab: true
       }
     });
@@ -66,7 +66,7 @@ describe("VS - Selecting Values", () => {
 
   it("can deselect a pre-selected object", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         options: [
           { label: "This is Foo", value: "foo" },
@@ -86,7 +86,7 @@ describe("VS - Selecting Values", () => {
 
   it("can deselect a pre-selected string", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         options: ["foo", "bar"]
       }
@@ -109,7 +109,7 @@ describe("VS - Selecting Values", () => {
 
   it("can determine if the value prop is empty", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         options: ["one", "two", "three"]
       }
     });
@@ -135,7 +135,7 @@ describe("VS - Selecting Values", () => {
 
   it("should reset the selected values when the multiple property changes", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         options: ["one", "two", "three"]
       }
@@ -150,7 +150,7 @@ describe("VS - Selecting Values", () => {
 
   it("can retain values present in a new array of options", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         value: ["one"],
         options: ["one", "two", "three"]
       }
@@ -162,7 +162,7 @@ describe("VS - Selecting Values", () => {
 
   it("can determine if an object is already selected", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         value: [{ label: "one" }],
         options: [{ label: "one" }]
       }
@@ -188,7 +188,7 @@ describe("VS - Selecting Values", () => {
 
   it("can check if a string value is selected when the value is an object and multiple is true", () => {
     const Select = shallowMount(VueSelect, {
-      propsData: {
+      props: {
         multiple: true,
         value: [{ label: "foo", value: "bar" }]
       }
@@ -215,7 +215,7 @@ describe("VS - Selecting Values", () => {
 
     it("will trigger the input event when the selection changes and multiple is true", () => {
       const Select = shallowMount(VueSelect, {
-        propsData: { multiple: true, value: ["foo"], options: ["foo", "bar"] }
+        props: { multiple: true, value: ["foo"], options: ["foo", "bar"] }
       });
       Select.vm.select("bar");
       expect(Select.emitted("input")[0]).toEqual([["foo", "bar"]]);
