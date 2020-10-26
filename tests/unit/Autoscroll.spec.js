@@ -8,8 +8,7 @@ describe("Automatic Scrolling", () => {
     Select.vm.typeAheadPointer = 1;
 
     //  When
-    Select.find({ ref: "search" }).trigger("keydown.up");
-    await Select.vm.$nextTick();
+    await Select.trigger("keydown.up")
 
     //  Then
     expect(spy).toHaveBeenCalled();
@@ -22,8 +21,7 @@ describe("Automatic Scrolling", () => {
     Select.vm.typeAheadPointer = 1;
 
     //  When
-    Select.find({ ref: "search" }).trigger("keydown.down");
-    await Select.vm.$nextTick();
+    await Select.trigger("keydown.down");
 
     //  Then
     expect(spy).toHaveBeenCalled();
