@@ -16,7 +16,7 @@ describe("Toggling Dropdown", () => {
 
   it("should open the dropdown when the el is clicked", () => {
     const Select = selectWithProps({
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }]
     });
 
@@ -26,7 +26,7 @@ describe("Toggling Dropdown", () => {
 
   it("should not close the dropdown when the el is clicked and enableMouseInputSearch is set to true", () => {
     const Select = selectWithProps({
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }],
       enableMouseSearchInput: true
     });
@@ -39,7 +39,7 @@ describe("Toggling Dropdown", () => {
 
   it("should open the dropdown when the selected tag is clicked", () => {
     const Select = selectWithProps({
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }]
     });
 
@@ -61,7 +61,7 @@ describe("Toggling Dropdown", () => {
 
   it("closes the dropdown when an option is selected, multiple is true, and closeOnSelect option is true", () => {
     const Select = selectWithProps({
-      value: [],
+      modelValue: [],
       options: ["one", "two", "three"],
       multiple: true
     });
@@ -74,7 +74,7 @@ describe("Toggling Dropdown", () => {
 
   it("does not close the dropdown when the el is clicked, multiple is true, and closeOnSelect option is false", () => {
     const Select = selectWithProps({
-      value: [],
+      modelValue: [],
       options: ["one", "two", "three"],
       multiple: true,
       closeOnSelect: false
@@ -130,7 +130,7 @@ describe("Toggling Dropdown", () => {
 
   it("should remove existing search text on escape keydown", () => {
     const Select = selectWithProps({
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }]
     });
 

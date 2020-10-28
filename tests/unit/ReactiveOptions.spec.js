@@ -39,7 +39,7 @@ describe("Reset on options change", () => {
     it('should receive the new options, old options, and current value', async () => {
       let resetOnOptionsChange = jest.fn(option => option);
       const Select = mountDefault(
-        {resetOnOptionsChange, options: ['bear'], value: 'selected'},
+        {resetOnOptionsChange, options: ['bear'], modelValue: 'selected'},
       );
 
       await Select.setProps({options: ['lake', 'kite']});
@@ -53,7 +53,7 @@ describe("Reset on options change", () => {
       let resetOnOptionsChange = () => true;
       spy = jest.spyOn(VueSelect.methods, 'clearSelection');
       const Select = shallowMount(VueSelect, {
-        props: {resetOnOptionsChange, options: ['one'], value: 'one'},
+        props: {resetOnOptionsChange, options: ['one'], modelValue: 'one'},
       });
 
       await Select.setProps({options: ['one', 'two']});
@@ -65,7 +65,7 @@ describe("Reset on options change", () => {
       let resetOnOptionsChange = () => false;
       spy = jest.spyOn(VueSelect.methods, 'clearSelection');
       const Select = shallowMount(VueSelect, {
-        props: {resetOnOptionsChange, options: ['one'], value: 'one'},
+        props: {resetOnOptionsChange, options: ['one'], modelValue: 'one'},
       });
 
       Select.setProps({options: ['one', 'two']});
@@ -76,7 +76,7 @@ describe("Reset on options change", () => {
       let resetOnOptionsChange = (options, old, val) => val.some(val => options.includes(val));
       spy = jest.spyOn(VueSelect.methods, 'clearSelection');
       const Select = shallowMount(VueSelect, {
-        props: {resetOnOptionsChange, options: ['one'], value: 'one'},
+        props: {resetOnOptionsChange, options: ['one'], modelValue: 'one'},
       });
 
       await Select.setProps({options: ['one', 'two']});
@@ -103,7 +103,7 @@ describe("Reset on options change", () => {
 
   it("should return correct selected value when the options property changes and a new option matches", async () => {
     const Select = shallowMount(VueSelect, {
-      props: { value: "one", options: [], reduce(option) { return option.value } }
+      props: { modelValue: "one", options: [], reduce(option) { return option.value } }
     });
 
     await Select.setProps({options: [{ label: "oneLabel", value: "one" }]});

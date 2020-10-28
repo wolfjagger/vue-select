@@ -4,7 +4,7 @@ import { mountDefault } from "../helpers";
 describe("Automatic Scrolling", () => {
   let spy;
   afterEach(() => {
-    spy.mockClear();
+    if (spy) spy.mockClear();
   });
 
   it("should check if the scroll position needs to be adjusted on up arrow keyUp", async () => {

@@ -7,7 +7,7 @@ describe("Labels", () => {
     const Select = selectWithProps({
       options: [{ name: "Foo" }],
       label: "name",
-      value: { name: "Foo" }
+      modelValue: { name: "Foo" }
     });
     expect(Select.find(".vs__selected").text()).toBe("Foo");
   });
