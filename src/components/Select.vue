@@ -990,7 +990,7 @@
        * @return {boolean}
        */
       isTrackingValues () {
-        return typeof this.value === 'undefined' || this.$options.propsData.hasOwnProperty('reduce');
+        return typeof this.value === 'undefined' || this.$options.props.hasOwnProperty('reduce');
       },
 
       /**
