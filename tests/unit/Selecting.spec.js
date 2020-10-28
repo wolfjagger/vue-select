@@ -1,41 +1,47 @@
 import { mount, shallowMount } from "@vue/test-utils";
 import VueSelect from "../../src/components/Select.vue";
+import typeAheadPointer from "../../src/mixins/typeAheadPointer";
 import { mountDefault } from '../helpers';
 
 describe("VS - Selecting Values", () => {
   let defaultProps;
+  let spy;
 
   beforeEach(() => {
     defaultProps = {
-      value: "one",
+      modelValue: "one",
       options: ["one", "two", "three"]
     };
+  });
+
+  afterEach(() => {
+    if (spy) spy.mockClear();
   });
 
   it("can accept an array with pre-selected values", () => {
     const Select = shallowMount(VueSelect, {
       props: defaultProps
     });
-    expect(Select.selectedValue).toEqual(Select.value);
+    expect(Select.vm.selectedValue[0]).toEqual(Select.vm.modelValue);
   });
 
   it("can accept an array of objects and pre-selected value (single)", () => {
     const Select = shallowMount(VueSelect, {
       props: {
-        value: { label: "This is Foo", value: "foo" },
+        modelValue: { label: "This is Foo", value: "foo" },
         options: [
           { label: "This is Foo", value: "foo" },
           { label: "This is Bar", value: "bar" }
         ]
       }
     });
-    expect(Select.selectedValue).toEqual(Select.value);
+    expect(Select.vm.selectedValue[0]).toEqual(Select.vm.modelValue);
   });
 
   it("can accept an array of objects and pre-selected values (multiple)", () => {
     const Select = shallowMount(VueSelect, {
       props: {
-        value: [
+        modelValue: [
           { label: "This is Foo", value: "foo" },
           { label: "This is Bar", value: "bar" }
         ],
@@ -47,19 +53,19 @@ describe("VS - Selecting Values", () => {
       multiple: true
     });
 
-    expect(Select.selectedValue).toEqual(Select.value);
+    expect(Select.vm.selectedValue).toEqual(Select.vm.modelValue);
   });
 
   it("can select an option on tab", () => {
+
+    spy = jest.spyOn(typeAheadPointer.methods, "typeAheadSelect");
     const Select = shallowMount(VueSelect, {
       props: {
         selectOnTab: true
       }
     });
 
-    const spy = jest.spyOn(Select.vm.$.ctx, "typeAheadSelect");
-
-    Select.find({ ref: "search" }).trigger("keydown.tab");
+    Select.get("input").trigger("keydown.tab");
 
     expect(spy).toHaveBeenCalledWith();
   });
@@ -151,7 +157,7 @@ describe("VS - Selecting Values", () => {
   it("can retain values present in a new array of options", () => {
     const Select = shallowMount(VueSelect, {
       props: {
-        value: ["one"],
+        modelValue: ["one"],
         options: ["one", "two", "three"]
       }
     });
@@ -163,7 +169,7 @@ describe("VS - Selecting Values", () => {
   it("can determine if an object is already selected", () => {
     const Select = shallowMount(VueSelect, {
       props: {
-        value: [{ label: "one" }],
+        modelValue: [{ label: "one" }],
         options: [{ label: "one" }]
       }
     });
@@ -177,12 +183,12 @@ describe("VS - Selecting Values", () => {
       template: `<div><v-select :options="options" v-model="value" /></div>`,
       components: { "v-select": VueSelect }
     });
-    const Select = Parent.vm.$children[0];
+    const Select = Parent.getComponent({ name: 'v-select' })
 
-    expect(Select.value).toEqual("foo");
-    expect(Select.selectedValue).toEqual(["foo"]);
+    expect(Select.vm.modelValue).toEqual("foo");
+    expect(Select.vm.selectedValue).toEqual(["foo"]);
 
-    Select.select("bar");
+    Select.vm.select("bar");
     expect(Parent.vm.value).toEqual("bar");
   });
 
@@ -190,7 +196,7 @@ describe("VS - Selecting Values", () => {
     const Select = shallowMount(VueSelect, {
       props: {
         multiple: true,
-        value: [{ label: "foo", value: "bar" }]
+        modelValue: [{ label: "foo", value: "bar" }]
       }
     });
     expect(Select.vm.isOptionSelected({ label: "foo", value: "bar" })).toEqual(true);
@@ -210,15 +216,15 @@ describe("VS - Selecting Values", () => {
     it("will trigger the input event when the selection changes", () => {
       const Select = shallowMount(VueSelect);
       Select.vm.select("bar");
-      expect(Select.emitted("input")[0]).toEqual(["bar"]);
+      expect(Select.emitted("update:modelValue")[0]).toEqual(["bar"]);
     });
 
     it("will trigger the input event when the selection changes and multiple is true", () => {
       const Select = shallowMount(VueSelect, {
-        props: { multiple: true, value: ["foo"], options: ["foo", "bar"] }
+        props: { multiple: true, modelValue: ["foo"], options: ["foo", "bar"] }
       });
       Select.vm.select("bar");
-      expect(Select.emitted("input")[0]).toEqual([["foo", "bar"]]);
+      expect(Select.emitted("update:modelValue")[0]).toEqual([["foo", "bar"]]);
     });
   });
 });
