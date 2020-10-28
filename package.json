@@ -18,6 +18,7 @@
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.conf.js --progress",
     "build:docs": "cd docs && yarn build",
     "build:preview": "cd docs && yarn build",
+    "prepare": "npm run build",
     "test": "jest",
     "semantic-release": "semantic-release",
     "commit": "git-cz"
