@@ -107,7 +107,7 @@
        * using 'change' event using v-on
        * @type {Object||String||null}
        */
-      value: {},
+      modelValue: {},
 
       /**
        * An object with any custom components that you'd like to overwrite
@@ -575,7 +575,7 @@
         open: false,
         isComposing: false,
         pushedTags: [],
-        _value: [] // Internal value managed by Vue Select if no `value` prop is passed
+        _value: [] // Internal value managed by Vue Select if no `modelValue` prop is passed
       }
     },
 
@@ -596,8 +596,8 @@
           this.clearSelection();
         }
 
-        if (this.value && this.isTrackingValues) {
-          this.setInternalValueFromOptions(this.value);
+        if (this.modelValue && this.isTrackingValues) {
+          this.setInternalValueFromOptions(this.modelValue);
         }
       },
 
@@ -605,7 +605,7 @@
        * Make sure to update internal
        * value if prop changes outside
        */
-      value(val) {
+      modelValue(val) {
         if (this.isTrackingValues) {
           this.setInternalValueFromOptions(val)
         }
@@ -629,8 +629,8 @@
     created() {
       this.mutableLoading = this.loading;
 
-      if (typeof this.value !== "undefined" && this.isTrackingValues) {
-        this.setInternalValueFromOptions(this.value)
+      if (typeof this.modelValue !== "undefined" && this.isTrackingValues) {
+        this.setInternalValueFromOptions(this.modelValue)
       }
 
     },
@@ -723,7 +723,7 @@
        * @param value
        */
       updateValue (value) {
-        if (typeof this.value === 'undefined') {
+        if (typeof this.modelValue === 'undefined') {
           // Vue select has to manage value
           this.$data._value = value;
         }
@@ -736,7 +736,7 @@
           }
         }
 
-        this.$emit('input', value);
+        this.$emit('update:modelValue', value);
       },
 
       /**
@@ -832,7 +832,6 @@
       /**
        * Delete the value on Delete keypress when there is no
        * text in the search input, & there's tags to delete
-       * @return {this.value}
        */
       maybeDeleteValue() {
         if (!this.searchEl.value.length && this.selectedValue && this.selectedValue.length && this.clearable) {
@@ -990,7 +989,7 @@
        * @return {boolean}
        */
       isTrackingValues () {
-        return typeof this.value === 'undefined' || this.$options.props.hasOwnProperty('reduce');
+        return typeof this.modelValue === 'undefined' || this.$options.props.hasOwnProperty('reduce');
       },
 
       /**
@@ -998,7 +997,7 @@
        * @return {Array}
        */
       selectedValue () {
-        let value = this.value;
+        let value = this.modelValue;
         if (this.isTrackingValues) {
           // Vue select has to manage value internally
           value = this.$data._value;
