@@ -1,5 +1,6 @@
 import { selectWithProps } from "../helpers";
 import OpenIndicator from "../../src/components/OpenIndicator";
+import VueSelect from "../../src/components/Select";
 
 const preventDefault = jest.fn()
 
@@ -8,6 +9,12 @@ function clickEvent (currentTarget) {
 }
 
 describe("Toggling Dropdown", () => {
+
+  let spy;
+  afterEach(() => {
+    if (spy) spy.mockClear();
+  });
+
   it("should not open the dropdown when the el is clicked but the component is disabled", () => {
     const Select = selectWithProps({ disabled: true });
     Select.vm.toggleDropdown(clickEvent(Select.vm.$refs.search));
@@ -98,8 +105,8 @@ describe("Toggling Dropdown", () => {
   });
 
   it("will close the dropdown and emit the search:blur event from onSearchBlur", () => {
+    spy = jest.spyOn(VueSelect.methods, "onSearchBlur");
     const Select = selectWithProps();
-    const spy = jest.spyOn(Select.vm.$.ctx, "onSearchBlur");
 
     Select.vm.open = true;
     Select.vm.onSearchBlur();
@@ -109,8 +116,8 @@ describe("Toggling Dropdown", () => {
   });
 
   it("will open the dropdown and emit the search:focus event from onSearchFocus", () => {
+    spy = jest.spyOn(VueSelect.methods, "onSearchFocus");
     const Select = selectWithProps();
-    const spy = jest.spyOn(Select.vm.$.ctx, "onSearchFocus");
 
     Select.vm.onSearchFocus();
 

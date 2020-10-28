@@ -2,6 +2,7 @@ import pointerScroll from "../../src/mixins/pointerScroll"
 import { mountDefault } from "../helpers";
 
 describe("Automatic Scrolling", () => {
+
   let spy;
   afterEach(() => {
     if (spy) spy.mockClear();
@@ -35,8 +36,8 @@ describe("Automatic Scrolling", () => {
 
   it("should check if the scroll position needs to be adjusted when filtered options changes", async () => {
     //  Given
+    spy = jest.spyOn(pointerScroll.methods, "maybeAdjustScroll");
     const Select = mountDefault();
-    const spy = jest.spyOn(Select.vm.$.ctx, "maybeAdjustScroll");
     Select.vm.typeAheadPointer = 1;
 
     //  When
@@ -49,10 +50,10 @@ describe("Automatic Scrolling", () => {
 
   it("should not adjust scroll position when autoscroll is false", async () => {
     //  Given
+    spy = jest.spyOn(pointerScroll.methods, "maybeAdjustScroll");
     const Select = mountDefault({
       autoscroll: false
     });
-    const spy = jest.spyOn(Select.vm.$.ctx, "maybeAdjustScroll");
     Select.vm.typeAheadPointer = 1;
 
     // When
