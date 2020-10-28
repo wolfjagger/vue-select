@@ -6,7 +6,7 @@ describe("When reduce prop is defined", () => {
     const Select = shallowMount(VueSelect, {
       props: {
         reduce: option => option.value,
-        value: "foo",
+        modelValue: "foo",
         options: [{ label: "This is Foo", value: "foo" }]
       }
     });
@@ -17,7 +17,7 @@ describe("When reduce prop is defined", () => {
     const Select = shallowMount(VueSelect, {
       props: {
         reduce: option => option.id,
-        value: "foo",
+        modelValue: "foo",
         options: [
           {
             id: "foo",
@@ -56,7 +56,7 @@ describe("When reduce prop is defined", () => {
       props: {
         multiple: true,
         reduce: option => option.value,
-        value: ["foo"],
+        modelValue: ["foo"],
         options: [
           { label: "This is Foo", value: "foo" },
           { label: "This is Bar", value: "bar" }
@@ -131,20 +131,20 @@ describe("When reduce prop is defined", () => {
         />
       `
     });
-    const Select = Parent.vm.$children[0];
+    const Select = Parent.getComponent({ name: 'v-select' })
 
-    expect(Select.value).toEqual("foo");
-    expect(Select.selectedValue).toEqual([{ label: "This is Foo", value: "foo" }]);
+    expect(Select.vm.modelValue).toEqual("foo");
+    expect(Select.vm.selectedValue).toEqual([{ label: "This is Foo", value: "foo" }]);
 
-    Select.select({ label: "This is Bar", value: "bar" });
-    await Select.$nextTick();
+    Select.vm.select({ label: "This is Bar", value: "bar" });
+    await Select.vm.$nextTick();
     expect(Parent.vm.value).toEqual("bar");
-    expect(Select.selectedValue).toEqual([{ label: "This is Bar", value: "bar" }]);
+    expect(Select.vm.selectedValue).toEqual([{ label: "This is Bar", value: "bar" }]);
 
     // Parent denies to set baz
-    Select.select({ label: "This is Baz", value: "baz" });
-    await Select.$nextTick();
-    expect(Select.selectedValue).toEqual([{ label: "This is Bar", value: "bar" }]);
+    Select.vm.select({ label: "This is Baz", value: "baz" });
+    await Select.vm.$nextTick();
+    expect(Select.vm.selectedValue).toEqual([{ label: "This is Bar", value: "bar" }]);
     expect(Parent.vm.value).toEqual('bar');
   });
 
@@ -153,7 +153,7 @@ describe("When reduce prop is defined", () => {
       props: {
         multiple: true,
         reduce: option => option.value,
-        value: ["CA"],
+        modelValue: ["CA"],
         label: "name",
         options: [{ value: "CA", name: "Canada" }, { value: "US", name: "United States" }]
       }
@@ -183,7 +183,7 @@ describe("When reduce prop is defined", () => {
       props: {
         reduce: option => option.value,
         options: [option, {value: 1, label: 'Yes'}],
-        value: 0,
+        modelValue: 0,
       },
     });
 
@@ -197,7 +197,7 @@ describe("When reduce prop is defined", () => {
       props: {
         reduce: option => option.value,
         options: [option, {value: 1, label: 'Yes'}],
-        value: null,
+        modelValue: null,
       },
     });
 
@@ -211,7 +211,7 @@ describe("When reduce prop is defined", () => {
       const Select = shallowMount(VueSelect, {
         props: {
           reduce: option => option.value,
-          value: {
+          modelValue: {
             nested: true
           },
           options: [nestedOption]
@@ -240,13 +240,13 @@ describe("When reduce prop is defined", () => {
     const optionToChangeTo = { id: 1, label: "Foo" };
     const Select = shallowMount(VueSelect, {
       props: {
-        value: 2,
+        modelValue: 2,
         reduce: option => option.id,
         options: [optionToChangeTo, { id: 2, label: "Bar" }]
       }
     });
 
-    Select.setProps({ value: optionToChangeTo.id });
+    Select.setProps({ modelValue: optionToChangeTo.id });
     await Select.vm.$nextTick();
 
     expect(Select.vm.selectedValue).toEqual([optionToChangeTo]);
@@ -267,21 +267,20 @@ describe("When reduce prop is defined", () => {
         `,
         components: {'v-select': VueSelect},
       });
-      const Select = Parent.vm.$children[0];
+      const Select = Parent.getComponent({ name: 'v-select' })
 
       //  When
-      Select.$refs.search.focus();
-      await Select.$nextTick();
+      await Select.get('input').trigger('focus');
 
-      Select.search = 'hello';
-      await Select.$nextTick();
+      Select.vm.search = 'hello';
+      await Select.vm.$nextTick();
 
-      Select.typeAheadSelect();
-      await Select.$nextTick();
+      Select.vm.typeAheadSelect();
+      await Select.vm.$nextTick();
 
       //  Then
-      expect(Select.selectedValue).toEqual([{label: 'hello', value: -1}]);
-      expect(Select.$refs.selectedOptions.textContent.trim()).toEqual('hello');
+      expect(Select.vm.selectedValue).toEqual([{label: 'hello', value: -1}]);
+      expect(Select.vm.$refs.selectedOptions.textContent.trim()).toEqual('hello');
       expect(Parent.vm.selected).toEqual(-1);
     });
   });
