@@ -13,7 +13,7 @@ export const searchSubmit = (Wrapper, searchText = false) => {
   if (searchText) {
     Wrapper.vm.search = searchText;
   }
-  Wrapper.find({ ref: "search" }).trigger("keydown.enter")
+  Wrapper.get("input").trigger("keydown.enter")
 };
 
 /**
@@ -29,8 +29,7 @@ export const selectTag = async (Wrapper, searchText) => {
   Wrapper.vm.search = searchText;
   await Wrapper.vm.$nextTick();
 
-  Wrapper.find({ ref: "search" }).trigger("keydown.enter");
-  await Wrapper.vm.$nextTick();
+  await Wrapper.get("input").trigger("keydown.enter");
 };
 
 /**
