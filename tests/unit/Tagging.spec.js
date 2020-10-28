@@ -4,7 +4,7 @@ import {
   selectTag,
   selectWithProps,
 } from '../helpers';
-import Select from '../../src/components/Select';
+import VueSelect from '../../src/components/Select';
 
 describe("When Tagging Is Enabled", () => {
 
@@ -41,7 +41,7 @@ describe("When Tagging Is Enabled", () => {
     const Select = selectWithProps({
       taggable: true,
       multiple: true,
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two"]
     });
 
@@ -81,7 +81,7 @@ describe("When Tagging Is Enabled", () => {
       pushTags: true,
       taggable: true,
       multiple: true,
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two"]
     });
 
@@ -110,7 +110,7 @@ describe("When Tagging Is Enabled", () => {
       pushTags: true,
       taggable: true,
       multiple: true,
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two"]
     });
 
@@ -125,7 +125,7 @@ describe("When Tagging Is Enabled", () => {
       pushTags: false,
       taggable: true,
       multiple: true,
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two"]
     });
 
@@ -139,7 +139,7 @@ describe("When Tagging Is Enabled", () => {
       pushTags: false,
       taggable: true,
       multiple: true,
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two"]
     });
 
@@ -194,7 +194,7 @@ describe("When Tagging Is Enabled", () => {
     const Select = selectWithProps({
       taggable: true,
       multiple: true,
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }]
     });
 
@@ -207,7 +207,7 @@ describe("When Tagging Is Enabled", () => {
       taggable: true,
       multiple: true,
       filterable: false,
-      value: [{ label: "one" }],
+      modelValue: [{ label: "one" }],
       options: [{ label: "one" }]
     });
 
@@ -231,12 +231,12 @@ describe("When Tagging Is Enabled", () => {
   });
 
   it("should not allow duplicate tags when using object options", async () => {
+    const spy = jest.spyOn(VueSelect.methods, "select");
     const Select = selectWithProps({
       taggable: true,
       multiple: true,
       options: [{ label: "two" }]
     });
-    const spy = jest.spyOn(Select.vm.$.ctx, 'select');
 
     await selectTag(Select, "one");
     expect(Select.vm.selectedValue).toEqual([{ label: "one" }]);
@@ -255,9 +255,8 @@ describe("When Tagging Is Enabled", () => {
     });
 
     Select.vm.typeAheadPointer = 0;
-    Select.find({ ref: "search" }).trigger("keydown.tab");
+    await Select.get("input").trigger("keydown.tab");
 
-    await Select.vm.$nextTick();
     expect(Select.vm.selectedValue).toEqual(['one']);
   })
 });
