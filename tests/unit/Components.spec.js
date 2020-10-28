@@ -1,10 +1,10 @@
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import { selectWithProps } from '../helpers';
 
 describe('Components API', () => {
 
   it('swap the Deselect component', () => {
-    const Deselect = Vue.component('Deselect', {
+    const Deselect = defineComponent('Deselect', {
       render (createElement) {
         return createElement('button', 'remove');
       },
@@ -12,11 +12,11 @@ describe('Components API', () => {
 
     const Select = selectWithProps({components: {Deselect}});
 
-    expect(Select.contains(Deselect)).toBeTruthy();
+    expect(Select.find(Deselect)).toBeTruthy();
   });
 
   it('swap the OpenIndicator component', () => {
-    const OpenIndicator = Vue.component('OpenIndicator', {
+    const OpenIndicator = defineComponent('OpenIndicator', {
       render (createElement) {
         return createElement('i', '^');
       },
@@ -24,7 +24,7 @@ describe('Components API', () => {
 
     const Select = selectWithProps({components: {OpenIndicator}});
 
-    expect(Select.contains(OpenIndicator)).toBeTruthy();
+    expect(Select.find(OpenIndicator)).toBeTruthy();
   });
 
 });

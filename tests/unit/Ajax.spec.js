@@ -41,8 +41,8 @@ describe("Asynchronous Loading", () => {
 
   it("can set loading to false from the @search event callback", async () => {
     const Select = shallowMount(vSelect, {
-      listeners: {
-        search: (search, loading) => {
+      props: {
+        onSearch: (search, loading) => {
           loading(false)
         },
       },

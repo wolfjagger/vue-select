@@ -7,12 +7,11 @@ describe("Selectable prop", () => {
       selectable: (option) => option === "one"
     });
 
-    Select.vm.$data.open = true;
+    Select.vm.open = true;
     await Select.vm.$nextTick();
 
-    Select.find(".vs__dropdown-menu li:first-child").trigger("mousedown");
+    await Select.find(".vs__dropdown-menu li:first-child").trigger("mousedown");
 
-    await Select.vm.$nextTick();
     expect(Select.vm.selectedValue).toEqual(["one"]);
   })
 
@@ -22,16 +21,15 @@ describe("Selectable prop", () => {
       selectable: (option) => option === "one"
     });
 
-    Select.vm.$data.open = true;
+    Select.vm.open = true;
     await Select.vm.$nextTick();
 
-    Select.find(".vs__dropdown-menu li:last-child").trigger("mousedown");
-    await Select.vm.$nextTick();
+    await Select.find(".vs__dropdown-menu li:last-child").trigger("mousedown");
 
     expect(Select.vm.selectedValue).toEqual([]);
   });
 
-  it("should skip non-selectable option on down arrow keyDown", () => {
+  it("should skip non-selectable option on down arrow keyDown", async () => {
     const Select = selectWithProps({
       options: ["one", "two", "three"],
       selectable: (option) => option !== "two"
@@ -39,12 +37,12 @@ describe("Selectable prop", () => {
 
     Select.vm.typeAheadPointer = 1;
 
-    Select.find({ ref: "search" }).trigger("keydown.down");
+    await Select.get("input").trigger("keydown.down");
 
     expect(Select.vm.typeAheadPointer).toEqual(2);
   })
 
-  it("should skip non-selectable option on up arrow keyDown", () => {
+  it("should skip non-selectable option on up arrow keyDown", async () => {
     const Select = selectWithProps({
       options: ["one", "two", "three"],
       selectable: (option) => option !== "two"
@@ -52,7 +50,7 @@ describe("Selectable prop", () => {
 
     Select.vm.typeAheadPointer = 2;
 
-    Select.find({ ref: "search" }).trigger("keydown.up");
+    await Select.get("input").trigger("keydown.up");
 
     expect(Select.vm.typeAheadPointer).toEqual(0);
   })

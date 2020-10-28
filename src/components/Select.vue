@@ -107,7 +107,7 @@
        * using 'change' event using v-on
        * @type {Object||String||null}
        */
-      value: {},
+      modelValue: {},
 
       /**
        * An object with any custom components that you'd like to overwrite
@@ -501,7 +501,7 @@
 
       /**
        * Query Selector used to find the search input
-       * when the 'search' scoped slot is used.
+       * when the 'search' slot is used.
        *
        * Must be a valid CSS selector string.
        *
@@ -575,7 +575,7 @@
         open: false,
         isComposing: false,
         pushedTags: [],
-        _value: [] // Internal value managed by Vue Select if no `value` prop is passed
+        _value: [] // Internal value managed by Vue Select if no `modelValue` prop is passed
       }
     },
 
@@ -596,8 +596,8 @@
           this.clearSelection();
         }
 
-        if (this.value && this.isTrackingValues) {
-          this.setInternalValueFromOptions(this.value);
+        if (this.modelValue && this.isTrackingValues) {
+          this.setInternalValueFromOptions(this.modelValue);
         }
       },
 
@@ -605,7 +605,7 @@
        * Make sure to update internal
        * value if prop changes outside
        */
-      value(val) {
+      modelValue(val) {
         if (this.isTrackingValues) {
           this.setInternalValueFromOptions(val)
         }
@@ -629,12 +629,22 @@
     created() {
       this.mutableLoading = this.loading;
 
-      if (typeof this.value !== "undefined" && this.isTrackingValues) {
-        this.setInternalValueFromOptions(this.value)
+      if (typeof this.modelValue !== "undefined" && this.isTrackingValues) {
+        this.setInternalValueFromOptions(this.modelValue)
       }
 
-      this.$on('option:created', this.pushTag)
     },
+
+    emits: [
+      'open', 'close', 'input',
+      'search',
+      'search:compositionstart',
+      'search:compositionend',
+      'search:keydown',
+      'search:blur',
+      'search:focus',
+      'search:input'
+    ],
 
     methods: {
       /**
@@ -659,7 +669,7 @@
       select(option) {
         if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
-            this.$emit('option:created', option);
+            this.pushTag(option)
           }
           if (this.multiple) {
             option = this.selectedValue.concat(option)
@@ -713,7 +723,7 @@
        * @param value
        */
       updateValue (value) {
-        if (typeof this.value === 'undefined') {
+        if (typeof this.modelValue === 'undefined') {
           // Vue select has to manage value
           this.$data._value = value;
         }
@@ -726,7 +736,7 @@
           }
         }
 
-        this.$emit('input', value);
+        this.$emit('update:modelValue', value);
       },
 
       /**
@@ -822,7 +832,6 @@
       /**
        * Delete the value on Delete keypress when there is no
        * text in the search input, & there's tags to delete
-       * @return {this.value}
        */
       maybeDeleteValue() {
         if (!this.searchEl.value.length && this.selectedValue && this.selectedValue.length && this.clearable) {
@@ -847,7 +856,7 @@
 
       /**
        * Ensures that options are always
-       * passed as objects to scoped slots.
+       * passed as objects to slots.
        * @param option
        * @return {*}
        */
@@ -980,7 +989,7 @@
        * @return {boolean}
        */
       isTrackingValues () {
-        return typeof this.value === 'undefined' || this.$options.propsData.hasOwnProperty('reduce');
+        return typeof this.modelValue === 'undefined' || this.$options.props.hasOwnProperty('reduce');
       },
 
       /**
@@ -988,7 +997,7 @@
        * @return {Array}
        */
       selectedValue () {
-        let value = this.value;
+        let value = this.modelValue;
         if (this.isTrackingValues) {
           // Vue select has to manage value internally
           value = this.$data._value;
@@ -1017,13 +1026,13 @@
        * @returns {HTMLInputElement}
        */
       searchEl () {
-        return !!this.$scopedSlots['search']
+        return !!this.$slots['search']
           ? this.$refs.selectedOptions.querySelector(this.searchInputQuerySelector)
           : this.$refs.search;
       },
 
       /**
-       * The object to be bound to the $slots.search scoped slot.
+       * The object to be bound to the $slots.search slot.
        * @returns {Object}
        */
       scope () {
