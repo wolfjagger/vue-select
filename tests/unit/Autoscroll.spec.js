@@ -1,14 +1,20 @@
+import pointerScroll from "../../src/mixins/pointerScroll"
 import { mountDefault } from "../helpers";
 
 describe("Automatic Scrolling", () => {
+  let spy;
+  afterEach(() => {
+    spy.mockClear();
+  });
+
   it("should check if the scroll position needs to be adjusted on up arrow keyUp", async () => {
     //  Given
+    spy = jest.spyOn(pointerScroll.methods, "maybeAdjustScroll");
     const Select = mountDefault();
-    const spy = jest.spyOn(Select.vm.$.ctx, "maybeAdjustScroll");
     Select.vm.typeAheadPointer = 1;
 
     //  When
-    await Select.trigger("keydown.up")
+    await Select.get('input').trigger('keydown.up')
 
     //  Then
     expect(spy).toHaveBeenCalled();
@@ -16,12 +22,12 @@ describe("Automatic Scrolling", () => {
 
   it("should check if the scroll position needs to be adjusted on down arrow keyUp", async () => {
     //  Given
+    spy = jest.spyOn(pointerScroll.methods, "maybeAdjustScroll");
     const Select = mountDefault();
-    const spy = jest.spyOn(Select.vm.$.ctx, "maybeAdjustScroll");
     Select.vm.typeAheadPointer = 1;
 
     //  When
-    await Select.trigger("keydown.down");
+    await Select.get('input').trigger("keydown.down");
 
     //  Then
     expect(spy).toHaveBeenCalled();
