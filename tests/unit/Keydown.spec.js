@@ -1,14 +1,15 @@
+import { DOMWrapper } from "@vue/test-utils"
 import { mountDefault } from '../helpers';
 
 describe('Custom Keydown Handlers', () => {
 
-  it('can use the map-keydown prop to trigger custom behaviour', () => {
+  it('can use the map-keydown prop to trigger custom behaviour', async () => {
     const onKeyDown = jest.fn();
     const Select = mountDefault({
       mapKeydown: (defaults, vm) => ({ ...defaults, 32: onKeyDown }),
     });
 
-    Select.find({ ref: 'search' }).trigger('keydown.space');
+    await Select.get('input').trigger('keydown.space')
 
     expect(onKeyDown.mock.calls.length).toBe(1);
   });
@@ -20,7 +21,7 @@ describe('Custom Keydown Handlers', () => {
 
     const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
-    Select.find({ ref: 'search' }).trigger('keydown.space');
+    Select.get('input').trigger('keydown.space');
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -34,10 +35,10 @@ describe('Custom Keydown Handlers', () => {
 
     const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
-    Select.find({ ref: 'search' }).trigger('keydown.space');
+    Select.get('input').trigger('keydown.space');
     expect(onKeyDown.mock.calls.length).toBe(1);
 
-    Select.find({ ref: 'search' }).trigger('keydown.tab');
+    Select.get('input').trigger('keydown.tab');
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
@@ -47,12 +48,12 @@ describe('Custom Keydown Handlers', () => {
       const Select = mountDefault();
       const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
-      Select.find({ ref: 'search' }).trigger('compositionstart');
-      Select.find({ ref: 'search' }).trigger('keydown.enter');
+      Select.get('input').trigger('compositionstart');
+      Select.get('input').trigger('keydown.enter');
       expect(spy).toHaveBeenCalledTimes(0);
 
-      Select.find({ ref: 'search' }).trigger('compositionend');
-      Select.find({ ref: 'search' }).trigger('keydown.enter');
+      Select.get('input').trigger('compositionend');
+      Select.get('input').trigger('keydown.enter');
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
@@ -60,12 +61,12 @@ describe('Custom Keydown Handlers', () => {
       const Select = mountDefault({ selectOnTab: true });
       const spy = jest.spyOn(Select.vm.$.ctx, 'typeAheadSelect');
 
-      Select.find({ ref: 'search' }).trigger('compositionstart');
-      Select.find({ ref: 'search' }).trigger('keydown.tab');
+      Select.get('input').trigger('compositionstart');
+      Select.get('input').trigger('keydown.tab');
       expect(spy).toHaveBeenCalledTimes(0);
 
-      Select.find({ ref: 'search' }).trigger('compositionend');
-      Select.find({ ref: 'search' }).trigger('keydown.tab');
+      Select.get('input').trigger('compositionend');
+      Select.get('input').trigger('keydown.tab');
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
