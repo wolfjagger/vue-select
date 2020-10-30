@@ -636,7 +636,8 @@
     },
 
     emits: [
-      'open', 'close', 'input',
+      'open', 'close',
+      'update:modelValue',
       'search',
       'search:compositionstart',
       'search:compositionend',
