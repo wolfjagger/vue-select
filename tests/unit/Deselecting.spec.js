@@ -7,13 +7,13 @@ describe("Removing values", () => {
     await Select.vm.$nextTick();
 
     Select.find(".vs__deselect").trigger("click");
-    expect(Select.emitted().input).toEqual([[[]]]);
+    expect(Select.emitted()['update:modelValue']).toEqual([[[]]]);
     expect(Select.vm.selectedValue).toEqual([]);
   });
 
   it("should not remove tag when close icon is clicked and component is disabled", () => {
     const Select = selectWithProps({
-      value: ["one"],
+      modelValue: ["one"],
       options: ["one", "two", "three"],
       multiple: true,
       disabled: true
@@ -33,7 +33,7 @@ describe("Removing values", () => {
 
     Select.find('.vs__search').trigger('keydown.backspace')
 
-    expect(Select.emitted().input).toEqual([[['one']]]);
+    expect(Select.emitted()['update:modelValue']).toEqual([[['one']]]);
     expect(Select.vm.selectedValue).toEqual(["one"]);
   });
 
@@ -48,22 +48,22 @@ describe("Removing values", () => {
     expect(Select.vm.selectedValue).toEqual([]);
   });
 
-  it('will not emit input event if value has not changed with backspace', () => {
+  it('will not emit update:modelValue event if value has not changed with backspace', () => {
     const Select = mountDefault();
     Select.vm.$data._value = 'one';
-    Select.find({ ref: 'search' }).trigger('keydown.backspace');
-    expect(Select.emitted().input.length).toBe(1);
+    Select.get('input').trigger('keydown.backspace');
+    expect(Select.emitted()['update:modelValue'].length).toBe(1);
 
-    Select.find({ ref: 'search' }).trigger('keydown.backspace');
-    Select.find({ ref: 'search' }).trigger('keydown.backspace');
-    expect(Select.emitted().input.length).toBe(1);
+    Select.get('input').trigger('keydown.backspace');
+    Select.get('input').trigger('keydown.backspace');
+    expect(Select.emitted()['update:modelValue'].length).toBe(1);
   });
 
   describe("Clear button", () => {
     it("should be displayed on single select when value is selected", () => {
       const Select = selectWithProps({
         options: ["foo", "bar"],
-        value: "foo"
+        modelValue: "foo"
       });
 
       expect(Select.vm.showClearButton).toEqual(true);
@@ -72,7 +72,7 @@ describe("Removing values", () => {
     it("should not be displayed on multiple select", () => {
       const Select = selectWithProps({
         options: ["foo", "bar"],
-        value: "foo",
+        modelValue: "foo",
         multiple: true
       });
 
@@ -88,20 +88,18 @@ describe("Removing values", () => {
       expect(Select.vm.selectedValue).toEqual(["foo"]);
       Select.find("button.vs__clear").trigger("click");
 
-      expect(Select.emitted().input).toEqual([[null]]);
+      expect(Select.emitted()['update:modelValue']).toEqual([[null]]);
       expect(Select.vm.selectedValue).toEqual([]);
     });
 
     it("should be disabled when component is disabled", () => {
       const Select = selectWithProps({
         options: ["foo", "bar"],
-        value: "foo",
+        modelValue: "foo",
         disabled: true
       });
 
-      expect(Select.find("button.vs__clear").attributes().disabled).toEqual(
-        "disabled"
-      );
+      expect(Select.find("button.vs__clear").attributes().disabled).toBeDefined();
     });
   });
 });

@@ -10,6 +10,9 @@ module.exports = merge(baseWebpackConfig, {
     libraryTarget: 'umd',
     globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
+  externals: {
+    vue: 'vue'
+  },
   optimization: {
     minimizer: [
       new TerserPlugin({

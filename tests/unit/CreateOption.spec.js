@@ -25,6 +25,6 @@ describe("CreateOption When Tagging Is Enabled", () => {
 
     await selectTag(Select, "two");
 
-    expect(Select.emitted("input")[0]).toEqual([{ name: "two" }]);
+    expect(Select.emitted("update:modelValue")[0]).toEqual([{ name: "two" }]);
   });
 });

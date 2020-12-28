@@ -503,7 +503,7 @@
 
       /**
        * Query Selector used to find the search input
-       * when the 'search' scoped slot is used.
+       * when the 'search' slot is used.
        *
        * Must be a valid CSS selector string.
        *
@@ -577,7 +577,7 @@
         open: false,
         isComposing: false,
         pushedTags: [],
-        _value: [] // Internal value managed by Vue Select if no `value` prop is passed
+        _value: [] // Internal value managed by Vue Select if no `modelValue` prop is passed
       }
     },
 
@@ -636,6 +636,18 @@
       }
     },
 
+    emits: [
+      'open', 'close',
+      'update:modelValue',
+      'search',
+      'search:compositionstart',
+      'search:compositionend',
+      'search:keydown',
+      'search:blur',
+      'search:focus',
+      'search:input'
+    ],
+
     methods: {
       /**
        * Make sure tracked value is
@@ -660,6 +672,7 @@
         this.$emit('option:selecting', option);
         if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
+            /* @TODO: could we use v-model instead of push-tags? */
             this.$emit('option:created', option);
             this.pushTag(option);
           }
@@ -828,7 +841,6 @@
       /**
        * Delete the value on Delete keypress when there is no
        * text in the search input, & there's tags to delete
-       * @return {this.modelValue}
        */
       maybeDeleteValue() {
         if (!this.searchEl.value.length && this.selectedValue && this.selectedValue.length && this.clearable) {
@@ -853,7 +865,7 @@
 
       /**
        * Ensures that options are always
-       * passed as objects to scoped slots.
+       * passed as objects to slots.
        * @param option
        * @return {*}
        */
@@ -986,7 +998,7 @@
        * @return {boolean}
        */
       isTrackingValues () {
-        return typeof this.modelValue === 'undefined' || typeof this.reduce === 'function';
+        return typeof this.modelValue === 'undefined' || this.$options.props.hasOwnProperty('reduce');
       },
 
       /**
@@ -1029,7 +1041,7 @@
       },
 
       /**
-       * The object to be bound to the $slots.search scoped slot.
+       * The object to be bound to the $slots.search slot.
        * @returns {Object}
        */
       scope () {
