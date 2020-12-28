@@ -100,6 +100,8 @@
 
     directives: {appendToBody},
 
+    emits : ['open', 'close', 'search:focus', 'search:blur', 'update:modelValue', 'option:created'],
+
     props: {
       /**
        * Contains the currently selected value. Very similar to a
@@ -632,7 +634,6 @@
       if (typeof this.modelValue !== "undefined" && this.isTrackingValues) {
         this.setInternalValueFromOptions(this.modelValue)
       }
-
     },
 
     emits: [
@@ -670,7 +671,9 @@
       select(option) {
         if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
-            this.pushTag(option)
+            /* @TODO: could we use v-model instead of push-tags? */
+            this.$emit('option:created', option);
+            this.pushTag(option);
           }
           if (this.multiple) {
             option = this.selectedValue.concat(option)
@@ -753,8 +756,9 @@
 
         //  don't react to click on deselect/clear buttons,
         //  they dropdown state will be set in their click handlers
+
         const ignoredButtons = [
-          ...(this.$refs['deselectButtons'] || []),
+          ...(document.querySelectorAll('.vs__deselect') || []),
           ...([this.$refs['clearButton']] || []),
         ];
 
