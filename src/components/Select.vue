@@ -53,7 +53,7 @@
       </div>
     </div>
     <transition :name="transition">
-      <ul ref="dropdownMenu" v-if="dropdownOpen" :id="`vs${uid}__listbox`" :key="`vs${uid}__listbox`" class="vs__dropdown-menu" role="listbox" @mousedown.prevent="onMousedown" @mouseup="onMouseUp" v-append-to-body>
+      <ul ref="dropdownMenu" v-if="dropdownOpen" :id="`vs${uid}__listbox`" :key="`vs${uid}__listbox`" class="vs__dropdown-menu" role="listbox" @mousedown.prevent="onMousedown" @mouseup="onMouseUp" tabindex="-1" v-append-to-body>
         <slot name="list-header" v-bind="scope.listHeader" />
         <li
           role="option"
@@ -657,6 +657,7 @@
        * @return {void}
        */
       select(option) {
+        this.$emit('option:selecting', option);
         if (!this.isOptionSelected(option)) {
           if (this.taggable && !this.optionExists(option)) {
             this.$emit('option:created', option);
@@ -666,6 +667,7 @@
             option = this.selectedValue.concat(option)
           }
           this.updateValue(option);
+          this.$emit('option:selected', option);
         }
         this.onAfterSelect(option)
       },
@@ -676,9 +678,11 @@
        * @return {void}
        */
       deselect (option) {
+        this.$emit('option:deselecting', option);
         this.updateValue(this.selectedValue.filter(val => {
           return !this.optionComparator(val, option);
         }));
+        this.$emit('option:deselected', option);
       },
 
       /**
@@ -749,7 +753,7 @@
           ...([this.$refs['clearButton']] || []),
         ];
 
-        if (ignoredButtons.some(ref => ref.contains(event.target) || ref === event.target)) {
+        if (this.searchEl === undefined || ignoredButtons.filter(Boolean).some(ref => ref.contains(event.target) || ref === event.target)) {
           event.preventDefault();
           return;
         }
