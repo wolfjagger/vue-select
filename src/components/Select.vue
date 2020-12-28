@@ -100,7 +100,17 @@
 
     directives: {appendToBody},
 
-    emits : ['open', 'close', 'search:focus', 'search:blur', 'update:modelValue', 'option:created'],
+    emits: [
+      'open', 'close',
+      'update:modelValue',
+      'search',
+      'search:compositionstart',
+      'search:compositionend',
+      'search:keydown',
+      'search:blur',
+      'search:focus',
+      'search:input'
+    ],
 
     props: {
       /**
@@ -635,18 +645,6 @@
         this.setInternalValueFromOptions(this.modelValue)
       }
     },
-
-    emits: [
-      'open', 'close',
-      'update:modelValue',
-      'search',
-      'search:compositionstart',
-      'search:compositionend',
-      'search:keydown',
-      'search:blur',
-      'search:focus',
-      'search:input'
-    ],
 
     methods: {
       /**
