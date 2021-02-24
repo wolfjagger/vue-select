@@ -760,7 +760,7 @@
         //  they dropdown state will be set in their click handlers
 
         const ignoredButtons = [
-          ...(document.querySelectorAll('.vs__deselect') || []),
+          ...([this.$refs['deselectButtons']] || []),
           ...([this.$refs['clearButton']] || []),
         ];
 
