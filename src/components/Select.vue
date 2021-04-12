@@ -109,7 +109,12 @@
       'search:keydown',
       'search:blur',
       'search:focus',
-      'search:input'
+      'search:input',
+      'option:created',
+      'option:selecting',
+      'option:selected',
+      'option:deselecting',
+      'option:deselected'
     ],
 
     props: {
