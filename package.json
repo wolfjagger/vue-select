@@ -19,7 +19,6 @@
     "build:docs": "cd docs && yarn build",
     "build:preview": "cd docs && yarn build",
     "prepack": "yarn build",
-    "prepare": "yarn build",
     "test": "jest",
     "semantic-release": "semantic-release",
     "commit": "git-cz"
