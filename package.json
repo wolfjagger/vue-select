@@ -11,7 +11,6 @@
   "private": false,
   "main": "dist/vue-select.js",
   "license": "MIT",
-  "prepare": "npm run build",
   "scripts": {
     "serve": "webpack-dev-server --config build/webpack.dev.conf.js --hot --progress -d",
     "serve:docs": "cd docs && yarn serve",
@@ -19,6 +18,7 @@
     "build:docs": "cd docs && yarn build",
     "build:preview": "cd docs && yarn build",
     "prepack": "yarn build",
+    "prepare": "npm run build",
     "test": "jest",
     "semantic-release": "semantic-release",
     "commit": "git-cz"
